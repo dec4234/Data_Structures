@@ -5,27 +5,50 @@
 #ifndef CPPTESTING_NODE_H
 #define CPPTESTING_NODE_H
 
-template <typename T>
+class TestItem {
+
+};
+
 class Node {
-    T item;
-    Node* next;
+    private:
+        TestItem *item;
+        Node *n;
 
     public:
-        Node(T item, Node* next) {
-            this->item = item;
-            this->next = next;
+        Node() {
+            this->item = nullptr;
+            this->n = nullptr;
         }
 
-        T get_item() {
-            return item;
+        Node(TestItem item, Node *next) {
+            this->item = &item;
+            this->n = next;
         }
 
-        void set_item(T item) {
-            this->item = item;
+        TestItem get_item() {
+            return *item;
         }
 
-        void set_next(Node &next) {
-            this->next = next;
+        void set_item(TestItem i) {
+            this->item = &i;
+        }
+
+        Node *next() {
+            return this->n;
+        }
+
+        void set_next(Node *next) {
+            this->n = next;
+        }
+
+        Node& operator=(Node other) {
+            this->set_item(other.get_item());
+            this->set_next(other.next());
+        }
+
+        Node& operator=(Node* other) {
+            this->set_item(other->get_item());
+            this->set_next(other->next());
         }
 };
 

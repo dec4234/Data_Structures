@@ -5,45 +5,54 @@
 #include "Node.h"
 
 // https://www.geeksforgeeks.org/data-structures/linked-list/
-template<typename T>
 class LinkedList {
-        Node<T> *items = new Node<T>[1];
+        Node *first = new Node();
+        // Add pointer to last node?
+        Node* last = first;
 
     public:
-        void add(T item) {
-            auto *nodes = new Node<T>[size() + 1];
+        LinkedList() {
 
-            copy_into(items, nodes);
-
-            Node<T> node = new Node(item, nullptr);
-            nodes[size()] = node;
-            nodes[size() - 1].set_next(&node);
-
-            this->items = nodes;
         }
 
-        void remove(Node<T> &node) {
+        LinkedList(TestItem first) {
+            this->first = new Node(first, nullptr);
+        }
+
+        void add(Node next) {
+            last->set_next(&next);
+            this->last = &next; // Update reference to last
+        }
+
+        void remove(Node* remove) {
 
         }
 
         int size() {
-            return *(&items + 1) - items;
+            Node f = *this->first;
+            int size = 0;
+
+            // loop through until you reach the end
+            while (f.next() != nullptr) {
+                f = f.next();
+                size++;
+            }
+
+            return size;
         }
 
-        Node<T> get(int index) {
-            return items[index].get_item();
+        Node *get_last() {
+            Node f = *this->first;
+
+            // loop through until you reach the end
+            while (f.next() != nullptr) {
+                f = f.next();
+            }
+
+            return &f;
         }
 
-        Node<T> get_last() {
-            return items[size() - 1];
+        void print_all() {
+
         }
-
-
 };
-
-template<typename T>
-void copy_into(Node<T> *from[], Node<T> *into[]) {
-    for(int i = 0; i < (*(&from + 1) - from); i++) {
-        *into[i] = *from[i];
-    }
-}
